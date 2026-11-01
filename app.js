@@ -346,32 +346,227 @@ function resetWishesState() {
 }
 
 // ============================================================================
-// 8. LIGHTBOX PREVIEW FOTO PREWEDDING
+// 8. INTERACTIVE LIGHTBOX CAROUSEL DENGAN SWIPE & NAVIGATION
 // ============================================================================
 function initGalleryLightbox() {
   const modal = document.getElementById("lightboxModal");
   const modalImg = document.getElementById("lightboxImg");
+  const captionEl = document.getElementById("lightboxCaption");
+  const counterEl = document.getElementById("lightboxCounter");
+  const prevBtn = document.getElementById("lightboxPrev");
+  const nextBtn = document.getElementById("lightboxNext");
   const closeBtn = document.getElementById("lightboxClose");
+  const thumbsContainer = document.getElementById("lightboxThumbs");
+  const stageEl = document.getElementById("lightboxStage");
 
   if (!modal || !modalImg) return;
 
-  // Pasang click listener pada seluruh foto galeri
-  document.querySelectorAll(".gallery-img").forEach(img => {
-    img.addEventListener("click", () => {
-      modalImg.src = img.src;
-      modal.classList.add("show");
-    });
-  });
+  // Daftar lengkap foto prewedding dengan caption
+  const photos = [
+    { src: "1%20(1).jpeg", caption: "Harmoni Kasih di Alam Terbuka" },
+    { src: "1%20(2).jpeg", caption: "Menapaki Langkah Bersama" },
+    { src: "1%20(3).jpeg", caption: "Untaian Senyum & Bahagia" },
+    { src: "1%20(4).jpeg", caption: "Teduhnya Jalan Menuju Bahagia" },
+    { src: "1%20(5).jpeg", caption: "Di Bawah Rindang Pepohonan Hijau" },
+    { src: "1%20(6).jpeg", caption: "Menatap Masa Depan Berdua" },
+    { src: "1%20(7).jpeg", caption: "Bersama Selamanya dalam Dekapan Semesta" }
+  ];
 
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      modal.classList.remove("show");
+  let currentIndex = 0;
+
+  // Inisialisasi Thumbnail Bar
+  if (thumbsContainer) {
+    thumbsContainer.innerHTML = "";
+    photos.forEach((photo, idx) => {
+      const thumb = document.createElement("div");
+      thumb.className = `lightbox-thumb ${idx === 0 ? "active" : ""}`;
+      thumb.dataset.index = idx;
+      thumb.innerHTML = `<img src="${photo.src}" alt="Thumb ${idx + 1}" loading="lazy">`;
+      thumb.addEventListener("click", (e) => {
+        e.stopPropagation();
+        goToPhoto(idx);
+      });
+      thumbsContainer.appendChild(thumb);
     });
   }
 
+  // Tampilkan foto pada index tertentu
+  function updatePhotoDisplay(direction = "none") {
+    const photo = photos[currentIndex];
+    
+    // Terapkan animasi slide
+    modalImg.classList.remove("slide-next", "slide-prev");
+    void modalImg.offsetWidth; // Trigger reflow untuk reset animation
+    if (direction === "next") {
+      modalImg.classList.add("slide-next");
+    } else if (direction === "prev") {
+      modalImg.classList.add("slide-prev");
+    }
+
+    modalImg.src = photo.src;
+    modalImg.alt = photo.caption;
+    if (captionEl) captionEl.textContent = photo.caption;
+    if (counterEl) counterEl.textContent = `Foto ${currentIndex + 1} / ${photos.length}`;
+
+    // Update status active pada thumbnail
+    if (thumbsContainer) {
+      const allThumbs = thumbsContainer.querySelectorAll(".lightbox-thumb");
+      allThumbs.forEach((th, idx) => {
+        if (idx === currentIndex) {
+          th.classList.add("active");
+          th.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        } else {
+          th.classList.remove("active");
+        }
+      });
+    }
+  }
+
+  function goToPhoto(index, direction = "none") {
+    if (index < 0) {
+      currentIndex = photos.length - 1;
+    } else if (index >= photos.length) {
+      currentIndex = 0;
+    } else {
+      currentIndex = index;
+    }
+    updatePhotoDisplay(direction);
+  }
+
+  function nextPhoto() {
+    goToPhoto(currentIndex + 1, "next");
+  }
+
+  function prevPhoto() {
+    goToPhoto(currentIndex - 1, "prev");
+  }
+
+  function openLightbox(index) {
+    currentIndex = index >= 0 && index < photos.length ? index : 0;
+    updatePhotoDisplay("none");
+    modal.classList.add("show");
+    document.addEventListener("keydown", handleKeyNavigation);
+  }
+
+  function closeLightbox() {
+    modal.classList.remove("show");
+    document.removeEventListener("keydown", handleKeyNavigation);
+  }
+
+  // Keyboard Navigation: Panah Kiri, Kanan, Esc
+  function handleKeyNavigation(e) {
+    if (!modal.classList.contains("show")) return;
+    if (e.key === "ArrowRight") {
+      nextPhoto();
+    } else if (e.key === "ArrowLeft") {
+      prevPhoto();
+    } else if (e.key === "Escape") {
+      closeLightbox();
+    }
+  }
+
+  // Event Listeners Tombol Navigasi
+  if (nextBtn) {
+    nextBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      nextPhoto();
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      prevPhoto();
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeLightbox();
+    });
+  }
+
+  // Klik di luar foto untuk menutup
   modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.classList.remove("show");
+    if (e.target === modal || e.target === stageEl) {
+      closeLightbox();
+    }
+  });
+
+  // Pasang click listener pada setiap kartu foto galeri di halaman
+  document.querySelectorAll(".gallery-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      const idx = parseInt(item.dataset.index) || 0;
+      openLightbox(idx);
+    });
+  });
+
+  // ==========================================================================
+  // TOUCH SWIPE GESTURES (UNTUK HP / MOBILE)
+  // ==========================================================================
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let isSwiping = false;
+
+  const swipeTarget = stageEl || modalImg;
+
+  swipeTarget.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      isSwiping = true;
+    }
+  }, { passive: true });
+
+  swipeTarget.addEventListener("touchmove", (e) => {
+    if (!isSwiping || e.touches.length !== 1) return;
+    touchEndX = e.touches[0].clientX;
+  }, { passive: true });
+
+  swipeTarget.addEventListener("touchend", (e) => {
+    if (!isSwiping) return;
+    isSwiping = false;
+
+    const diffX = touchEndX - touchStartX;
+    const diffY = (e.changedTouches[0]?.clientY || touchStartY) - touchStartY;
+
+    // Jika geseran horizontal lebih dominan daripada vertikal dan melewati threshold 35px
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX < 0) {
+        // Geser ke kiri -> Next foto
+        nextPhoto();
+      } else {
+        // Geser ke kanan -> Prev foto
+        prevPhoto();
+      }
+    }
+    touchStartX = 0;
+    touchEndX = 0;
+  });
+
+  // ==========================================================================
+  // MOUSE DRAG GESTURES (UNTUK PC / DESKTOP)
+  // ==========================================================================
+  let mouseStartX = 0;
+  let isMouseDown = false;
+
+  modalImg.addEventListener("mousedown", (e) => {
+    mouseStartX = e.clientX;
+    isMouseDown = true;
+  });
+
+  window.addEventListener("mouseup", (e) => {
+    if (!isMouseDown) return;
+    isMouseDown = false;
+    const diffX = e.clientX - mouseStartX;
+    if (Math.abs(diffX) > 40) {
+      if (diffX < 0) {
+        nextPhoto();
+      } else {
+        prevPhoto();
+      }
     }
   });
 }

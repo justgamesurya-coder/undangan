@@ -214,31 +214,52 @@
 
 
     <!-- Galeri Momen Bahagia (Prewedding Photos) -->
-    <section class="glass-card">
+    <section class="glass-card" id="sectionGallery">
       <h2 class="section-title">Galeri Momen Bahagia</h2>
-      <p class="section-desc">Untaian rasa dan kebahagiaan dalam perjalanan cinta kami:</p>
+      <p class="section-desc">Untaian rasa dan kebahagiaan dalam perjalanan cinta kami (Klik foto untuk perbesar &amp; geser):</p>
 
       <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="1%20(1).jpeg" alt="Prewedding 1" class="gallery-img" loading="lazy">
+        <div class="gallery-item" data-index="0" data-caption="Harmoni Kasih di Alam Terbuka">
+          <img src="1%20(1).jpeg" alt="Prewedding Anggi & Rachman 1" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge-hint">🔍 Lihat Foto</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="1%20(2).jpeg" alt="Prewedding 2" class="gallery-img" loading="lazy">
+        <div class="gallery-item" data-index="1" data-caption="Menapaki Langkah Bersama">
+          <img src="1%20(2).jpeg" alt="Prewedding Anggi & Rachman 2" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge-hint">🔍 Lihat Foto</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="1%20(3).jpeg" alt="Prewedding 3" class="gallery-img" loading="lazy">
+        <div class="gallery-item" data-index="2" data-caption="Untaian Senyum &amp; Bahagia">
+          <img src="1%20(3).jpeg" alt="Prewedding Anggi & Rachman 3" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge-hint">🔍 Lihat Foto</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="1%20(4).jpeg" alt="Prewedding 4" class="gallery-img" loading="lazy">
+        <div class="gallery-item" data-index="3" data-caption="Teduhnya Jalan Menuju Bahagia">
+          <img src="1%20(4).jpeg" alt="Prewedding Anggi & Rachman 4" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge-hint">🔍 Lihat Foto</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="1%20(5).jpeg" alt="Prewedding 5" class="gallery-img" loading="lazy">
+        <div class="gallery-item" data-index="4" data-caption="Di Bawah Rindang Pepohonan Hijau">
+          <img src="1%20(5).jpeg" alt="Prewedding Anggi & Rachman 5" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge-hint">🔍 Lihat Foto</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="1%20(6).jpeg" alt="Prewedding 6" class="gallery-img" loading="lazy">
+        <div class="gallery-item" data-index="5" data-caption="Menatap Masa Depan Berdua">
+          <img src="1%20(6).jpeg" alt="Prewedding Anggi & Rachman 6" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge-hint">🔍 Lihat Foto</span>
+          </div>
         </div>
-        <div class="gallery-item" style="grid-column: span 2; aspect-ratio: 16 / 10;">
-          <img src="1%20(7).jpeg" alt="Prewedding 7" class="gallery-img" loading="lazy">
+        <div class="gallery-item gallery-item-wide" data-index="6" data-caption="Bersama Selamanya dalam Dekapan Semesta">
+          <img src="1%20(7).jpeg" alt="Prewedding Anggi & Rachman 7" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <span class="gallery-badge-hint">🔍 Lihat Foto</span>
+          </div>
         </div>
       </div>
     </section>
@@ -340,10 +361,40 @@
 
   </div>
 
-  <!-- Fullscreen Lightbox Modal for Photos & Denah -->
-  <div class="lightbox-modal" id="lightboxModal">
-    <div class="lightbox-close" id="lightboxClose">&times;</div>
-    <img src="" alt="Perbesar Foto" class="lightbox-img" id="lightboxImg">
+  <!-- Fullscreen Interactive Lightbox Modal with Swipe & Navigation -->
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Galeri Foto Prewedding">
+    <!-- Topbar: Counter & Close -->
+    <div class="lightbox-topbar">
+      <div class="lightbox-counter-badge" id="lightboxCounter">1 / 7</div>
+      <div class="lightbox-swipe-hint">👈 Geser Foto 👉</div>
+      <button class="lightbox-close-btn" id="lightboxClose" aria-label="Tutup Galeri">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- Main Carousel Stage -->
+    <div class="lightbox-stage" id="lightboxStage">
+      <!-- Tombol Panah Kiri -->
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Foto Sebelumnya" title="Foto Sebelumnya (Panah Kiri / Geser Kanan)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <!-- Tampilan Foto Aktif & Caption -->
+      <div class="lightbox-media-wrapper" id="lightboxMediaWrapper">
+        <img src="" alt="Foto Momen Bahagia" class="lightbox-img" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption">Harmoni Kasih</div>
+      </div>
+
+      <!-- Tombol Panah Kanan -->
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Foto Selanjutnya" title="Foto Selanjutnya (Panah Kanan / Geser Kiri)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+    <!-- Bottom Thumbnail Strip -->
+    <div class="lightbox-thumbs-container" id="lightboxThumbs">
+      <!-- Generated via JS -->
+    </div>
   </div>
 
   <!-- Toast Notification -->
