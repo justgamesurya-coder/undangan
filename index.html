@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan Online - Anggi & Rachman</title>
+  <meta name="description" content="Undangan Pernikahan Online Anggi Nuraini S.Pd & Syaiful Rachman. Sabtu, 5 Desember 2026. Mohon doa restu dan kehadiran Bapak/Ibu/Saudara/i.">
+  
+  <!-- Open Graph / Meta Social -->
+  <meta property="og:title" content="The Wedding of Anggi & Rachman (A & R)">
+  <meta property="og:description" content="Sabtu, 5 Desember 2026. Mohon doa restu dan kehadiran Bapak/Ibu/Saudara/i pada hari bahagia kami.">
+  <meta property="og:image" content="1%20(1).jpeg">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Cinzel, Playfair Display, Great Vibes, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Three.js 3D Library (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- Background 3D WebGL Canvas -->
+  <canvas id="canvas3d"></canvas>
+
+  <!-- =========================================================================
+       COVER / ENVELOPE MODAL OVERLAY
+       ========================================================================= -->
+  <div class="cover-overlay" id="coverOverlay">
+    <div class="cover-card">
+      <div class="cover-monogram">A & R</div>
+      <p class="cover-subtitle">Walimatul 'Ursy</p>
+      <h1 class="cover-title">Anggi & Rachman</h1>
+      <p class="cover-date">Sabtu, 5 Desember 2026</p>
+      
+      <div class="guest-box">
+        <div class="guest-to">Kepada Yth. Bapak/Ibu/Saudara/i:</div>
+        <div class="guest-name" id="coverGuestName">Tamu Undangan</div>
+      </div>
+
+      <button class="btn-open" id="btnOpenInvitation">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        Buka Undangan
+      </button>
+    </div>
+  </div>
+
+  <!-- Background Music Audio Player (Lagu Pilihan Mempelai dari Google Drive) -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.m4a" type="audio/mp4">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Floating Music Toggle -->
+  <button class="music-toggle" id="btnMusicToggle" title="Putar / Jeda Musik">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M9 18V5l12-2v13"></path>
+      <circle cx="6" cy="18" r="3"></circle>
+      <circle cx="18" cy="16" r="3"></circle>
+    </svg>
+  </button>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <div class="container">
+    
+    <!-- Hero / Title -->
+    <header class="hero-section">
+      <div class="hero-subtitle">The Wedding Of</div>
+      <div class="hero-couple">Anggi & Rachman</div>
+      <div class="hero-date">Sabtu, 5 Desember 2026 • Citeureup, Bogor</div>
+
+      <div class="divider-ornament">
+        <span></span>
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l2.4 7.4h7.6l-6.2 4.5 2.4 7.4-6.2-4.5-6.2 4.5 2.4-7.4-6.2-4.5h7.6z"/>
+        </svg>
+        <span></span>
+      </div>
+    </header>
+
+    <!-- Doa & Ayat Suci -->
+    <section class="glass-card" style="text-align: center;">
+      <p style="font-size: 0.95rem; color: #f1f5f9; font-style: italic; line-height: 1.8; margin-bottom: 12px;">
+        "Ya Allah, Jika Engkau memperkenankan putra-putri kami untuk membuka lembaran hidup baru, maka ijinkanlah kami menikahkan mereka."
+      </p>
+      <div style="width: 40px; height: 1px; background: var(--primary); margin: 12px auto;"></div>
+      <p style="font-size: 0.88rem; color: #cbd5e1; font-style: italic; line-height: 1.7;">
+        "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
+      </p>
+      <div style="margin-top: 10px; font-weight: 700; color: var(--text-gold); font-size: 0.82rem;">
+        (QS. Ar-Rum: 21)
+      </div>
+    </section>
+
+    <!-- Pasangan Mempelai -->
+    <section class="glass-card">
+      <h2 class="section-title">Mempelai</h2>
+      <p class="section-desc">Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud melangsungkan pernikahan putra-putri kami:</p>
+
+      <!-- Mempelai Wanita -->
+      <div class="couple-card">
+        <div class="couple-photo-wrapper">
+          <img src="bride_anggi.jpg" alt="Anggi Nuraini S.Pd" class="couple-photo">
+        </div>
+        <h3 class="couple-name">Anggi Nuraini, S.Pd</h3>
+        <p class="couple-bio">Wanita berhati mulia dan berdedikasi yang senantiasa menebarkan kehangatan serta kebaikan.</p>
+        <p class="couple-parents">Putri pertama dari:<br><strong>Bpk. Wawan & Ibu Siti Fatimah (Empat)</strong></p>
+      </div>
+
+      <div class="couple-ampersand">&</div>
+
+      <!-- Mempelai Pria -->
+      <div class="couple-card">
+        <div class="couple-photo-wrapper">
+          <img src="groom_rachman.jpg" alt="Syaiful Rachman" class="couple-photo">
+        </div>
+        <h3 class="couple-name">Syaiful Rachman</h3>
+        <p class="couple-bio">Pria berdedikasi dan bertekad kuat yang senantiasa melangkah dengan penuh tanggung jawab.</p>
+        <p class="couple-parents">Putra pertama dari:<br><strong>Bpk. Unin Rachman & Ibu Mimin</strong></p>
+      </div>
+    </section>
+
+    <!-- Hitung Mundur / Countdown -->
+    <section class="glass-card" style="text-align: center;">
+      <h2 class="section-title">Menuju Hari Bahagia</h2>
+      <p class="section-desc">Insya Allah acara akad dan resepsi akan diselenggarakan dalam:</p>
+
+      <div class="countdown-box">
+        <div class="countdown-item">
+          <div class="countdown-number" id="days">00</div>
+          <div class="countdown-label">Hari</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-label">Jam</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-label">Menit</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-label">Detik</div>
+        </div>
+      </div>
+
+      <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Anggi+Nuraini+%26+Syaiful+Rachman&dates=20261205T020000Z/20261205T080000Z&details=Pernikahan+Anggi+dan+Rachman&location=Kp.+Babakan+Rt.02+Rw.05+Ds.+Tarikolot,+Citeureup,+Bogor" target="_blank" class="btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        Simpan ke Google Calendar
+      </a>
+    </section>
+
+    <!-- Rangkaian Acara -->
+    <section class="glass-card">
+      <h2 class="section-title">Rangkaian Acara</h2>
+      <p class="section-desc">Dengan segala kerendahan hati, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada:</p>
+
+      <!-- Akad Nikah -->
+      <div class="event-item">
+        <h3 class="event-title">Akad Nikah</h3>
+        <div class="event-detail">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Pukul: 09.00 WIB
+        </div>
+        <div class="event-detail">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Sabtu, 5 Desember 2026
+        </div>
+        <div class="event-location">
+          <strong>Kediaman Mempelai Wanita</strong><br>
+          Kp. Babakan Rt.02 Rw.05 Ds. Tarikolot, Kec. Citeureup - Bogor
+        </div>
+      </div>
+
+      <!-- Resepsi -->
+      <div class="event-item" style="margin-bottom: 0;">
+        <h3 class="event-title">Resepsi Pernikahan</h3>
+        <div class="event-detail">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Pukul: 10.00 WIB s/d Selesai
+        </div>
+        <div class="event-detail">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Sabtu, 5 Desember 2026
+        </div>
+        <div class="event-location">
+          <strong>Kediaman Mempelai Wanita</strong><br>
+          Kp. Babakan Rt.02 Rw.05 Ds. Tarikolot, Kec. Citeureup - Bogor
+        </div>
+      </div>
+
+      <a href="https://maps.google.com/maps?q=-6.50160551071167%2C106.89112091064453&z=17&hl=id" target="_blank" class="btn-secondary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        Buka Petunjuk Arah di Google Maps
+      </a>
+    </section>
+
+
+    <!-- Galeri Momen Bahagia (Prewedding Photos) -->
+    <section class="glass-card">
+      <h2 class="section-title">Galeri Momen Bahagia</h2>
+      <p class="section-desc">Untaian rasa dan kebahagiaan dalam perjalanan cinta kami:</p>
+
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="1%20(1).jpeg" alt="Prewedding 1" class="gallery-img" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="1%20(2).jpeg" alt="Prewedding 2" class="gallery-img" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="1%20(3).jpeg" alt="Prewedding 3" class="gallery-img" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="1%20(4).jpeg" alt="Prewedding 4" class="gallery-img" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="1%20(5).jpeg" alt="Prewedding 5" class="gallery-img" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="1%20(6).jpeg" alt="Prewedding 6" class="gallery-img" loading="lazy">
+        </div>
+        <div class="gallery-item" style="grid-column: span 2; aspect-ratio: 16 / 10;">
+          <img src="1%20(7).jpeg" alt="Prewedding 7" class="gallery-img" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Amplop Digital & Tanda Kasih -->
+    <section class="glass-card">
+      <h2 class="section-title">Tanda Kasih (Amplop Digital)</h2>
+      <p class="section-desc">Doa restu Anda adalah karunia terindah bagi kami. Bagi keluarga dan sahabat yang ingin memberikan tanda kasih secara digital dapat melalui:</p>
+
+      <div class="bank-card">
+        <div class="bank-logo">BANK BCA</div>
+        <div class="bank-number" id="rekBca">1234 5678 90</div>
+        <div class="bank-holder">a.n Syaiful Rachman</div>
+        <button class="btn-copy" onclick="copyText('1234567890', 'Nomor rekening BCA berhasil disalin!')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
+          Salin Rekening
+        </button>
+      </div>
+
+      <div class="bank-card">
+        <div class="bank-logo">BANK MANDIRI</div>
+        <div class="bank-number" id="rekMandiri">9876 5432 10</div>
+        <div class="bank-holder">a.n Anggi Nuraini</div>
+        <button class="btn-copy" onclick="copyText('9876543210', 'Nomor rekening Mandiri berhasil disalin!')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
+          Salin Rekening
+        </button>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         RSVP & BUKU TAMU (DATABASE GOOGLE SPREADSHEET REAL-TIME)
+         ========================================================================= -->
+    <section class="glass-card" id="sectionRsvp">
+      <h2 class="section-title">Buku Tamu & RSVP</h2>
+      <p class="section-desc">Konfirmasi kehadiran dan sampaikan untaian doa restu untuk kedua mempelai (Data langsung tersimpan di Google Spreadsheet):</p>
+
+      <form id="rsvpForm">
+        <div class="form-group">
+          <label class="form-label" for="inputName">Nama Tamu Undangan *</label>
+          <input type="text" id="inputName" class="form-control" placeholder="Contoh: Bpk. Budi Santoso & Keluarga" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="selectAttendance">Konfirmasi Kehadiran *</label>
+          <select id="selectAttendance" class="form-control" required>
+            <option value="Hadir">✅ Hadir</option>
+            <option value="Tidak Hadir">❌ Berhalangan Hadir</option>
+            <option value="Masih Ragu">❓ Masih Ragu / Belum Pasti</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="selectGuestCount">Jumlah Tamu yang Hadir</label>
+          <select id="selectGuestCount" class="form-control">
+            <option value="1">1 Orang</option>
+            <option value="2">2 Orang</option>
+            <option value="3">3 Orang</option>
+            <option value="4">4 Orang atau lebih</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputMessage">Ucapan & Doa Restu *</label>
+          <textarea id="inputMessage" class="form-control" placeholder="Tuliskan ucapan dan doa hangat Anda di sini..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmitRsvp">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          <span id="btnSubmitText">Kirim Ucapan & Konfirmasi</span>
+        </button>
+      </form>
+
+      <!-- Live Wishes List / Feed dari Spreadsheet -->
+      <div style="margin-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.2); padding-top: 20px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <h3 style="font-size: 1.05rem; color: var(--text-gold); font-family: var(--font-serif);">
+            Ucapan & Doa Restu (<span id="totalWishesCount">0</span>)
+          </h3>
+          <button id="btnRefreshWishes" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 4px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"></path></svg>
+            Muat Ulang
+          </button>
+        </div>
+
+        <div class="wishes-list" id="wishesContainer">
+          <div style="text-align: center; color: var(--text-muted); padding: 25px 0;" id="loadingWishes">
+            Sedang memuat ucapan dari database spreadsheet...
+          </div>
+        </div>
+      </div>
+
+    <!-- Footer -->
+    <footer>
+      <p style="margin-bottom: 8px;">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan do'a restu kepada kedua mempelai.</p>
+      <div style="font-weight: 700; color: var(--text-gold); margin-bottom: 16px;">
+        Kami yang berbahagia:<br>
+        Kel. Bpk. Wawan &nbsp;&bull;&nbsp; Kel. Bpk. Unin Rachman
+      </div>
+      <div style="font-size: 0.78rem; opacity: 0.7; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span>Anggi &amp; Rachman Wedding</span>
+        <a href="generator.html" title="Portal Khusus Pengantin (Kelola & Buat Link Tamu)" style="color: inherit; opacity: 0.35; text-decoration: none; font-size: 0.75rem;">🔒</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Fullscreen Lightbox Modal for Photos & Denah -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <div class="lightbox-close" id="lightboxClose">&times;</div>
+    <img src="" alt="Perbesar Foto" class="lightbox-img" id="lightboxImg">
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toastBox">Notifikasi</div>
+
+  <!-- Scripts -->
+  <script src="three_scene.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
