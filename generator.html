@@ -246,6 +246,17 @@
         1. Buat Link & Pesan WhatsApp (Perorangan)
       </h2>
 
+      <!-- Konfigurasi Domain / Link Online Undangan -->
+      <div style="background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: var(--radius-md); padding: 14px; margin-bottom: 18px;">
+        <label class="form-label" for="onlineUrlInput" style="color: var(--text-gold); font-weight: 700; margin-bottom: 6px; display: block;">
+          🌐 Domain / URL Online Undangan Anda:
+        </label>
+        <input type="text" id="onlineUrlInput" class="form-control" value="https://justgamesurya-coder.github.io/undangan/" placeholder="https://justgamesurya-coder.github.io/undangan/" style="background: #000; border-color: rgba(212,175,55,0.4); font-weight: 600; color: #fff;">
+        <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 6px;">
+          ✅ Semua link personal dan pesan WhatsApp otomatis menggunakan alamat online GitHub Pages ini (bukan localhost).
+        </div>
+      </div>
+
       <div class="form-group">
         <label class="form-label" for="guestName">Nama Tamu Undangan *</label>
         <input type="text" id="guestName" class="form-control" placeholder="Contoh: Bpk. Joko & Keluarga / Dr. Hendra / Sahabat SMA" value="Bapak Joko & Keluarga">
@@ -406,14 +417,15 @@ Kami yang berbahagia,
     };
 
     function getBaseUrl() {
-      const loc = window.location;
-      let path = loc.pathname;
-      if (path.endsWith("generator.html")) {
-        path = path.replace(/generator\.html$/, "index.html");
-      } else if (!path.endsWith("index.html")) {
-        path = path.replace(/\/$/, "") + "/index.html";
+      const urlInput = document.getElementById("onlineUrlInput");
+      if (urlInput && urlInput.value.trim()) {
+        let val = urlInput.value.trim();
+        if (!val.endsWith("/") && !val.endsWith(".html")) {
+          val += "/";
+        }
+        return val;
       }
-      return `${loc.origin}${path}`;
+      return "https://justgamesurya-coder.github.io/undangan/";
     }
 
     function updatePreview() {
@@ -557,6 +569,8 @@ Kami yang berbahagia,
     }
 
     document.getElementById("guestName").addEventListener("input", updatePreview);
+    const onlineUrlInputEl = document.getElementById("onlineUrlInput");
+    if (onlineUrlInputEl) onlineUrlInputEl.addEventListener("input", updatePreview);
     window.addEventListener("DOMContentLoaded", updatePreview);
   </script>
 </body>

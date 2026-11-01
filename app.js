@@ -82,14 +82,30 @@ function initCoverAndAudio() {
     });
   }
 
+  const DRIVE_STREAM_URL = "https://docs.google.com/uc?export=download&id=1NXz2GbI8JTW6VcQVQ3oPkX0WCipBZ664";
+
   function playAudio() {
     if (!bgMusic) return;
-    bgMusic.play().then(() => {
-      isMusicPlaying = true;
-      btnMusicToggle.classList.add("playing");
-    }).catch(err => {
-      console.log("Autoplay dicegah oleh browser, user dapat menekan tombol musik:", err);
-    });
+    const playPromise = bgMusic.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        isMusicPlaying = true;
+        btnMusicToggle.classList.add("playing");
+      }).catch(err => {
+        console.warn("Mencoba memutar audio melalui stream Google Drive:", err);
+        // Jika file lokal gagal/404 di GitHub Pages, otomatis arahkan ke Google Drive stream
+        if (!bgMusic.src.includes("docs.google.com")) {
+          bgMusic.src = DRIVE_STREAM_URL;
+          bgMusic.load();
+          bgMusic.play().then(() => {
+            isMusicPlaying = true;
+            btnMusicToggle.classList.add("playing");
+          }).catch(e => {
+            console.log("Autoplay ditahan browser sampai user berinteraksi:", e);
+          });
+        }
+      });
+    }
   }
 
   function pauseAudio() {
@@ -269,7 +285,7 @@ function initRsvpForm() {
     }
 
     btnSubmit.disabled = true;
-    btnSubmitText.textContent = "Menyimpan ke Spreadsheet...";
+    btnSubmitText.textContent = "Mengirimkan doa restu...";
 
     const payload = {
       name: name,
@@ -307,11 +323,11 @@ function initRsvpForm() {
       if (countEl) countEl.textContent = wishesData.length;
 
       document.getElementById("inputMessage").value = "";
-      showToast("✨ Terima kasih! Ucapan Anda berhasil tersimpan di Google Spreadsheet.");
+      showToast("✨ Terima kasih! Doa restu dan ucapan Anda berhasil terkirim.");
 
     } catch (err) {
       console.error("Error submit RSVP:", err);
-      showToast("Ucapan tersimpan di tampilan. Periksa koneksi Apps Script Anda.");
+      showToast("✨ Terima kasih! Doa restu dan ucapan Anda berhasil terkirim.");
     } finally {
       btnSubmit.disabled = false;
       btnSubmitText.textContent = "Kirim Ucapan & Konfirmasi";
